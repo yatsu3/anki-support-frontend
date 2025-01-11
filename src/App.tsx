@@ -1,11 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import './App.css';
-import FlipCardApp from './FlipCardApp.tsx';
 
 function App() {
 
   return (
-    <FlipCardApp></FlipCardApp>
+    <h2>テスト</h2>
   );
 }
 
