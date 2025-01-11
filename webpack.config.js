@@ -1,7 +1,9 @@
-resolve: {
-    extensions: [
-      '.ts',
-      '.js',
-      '.tsx'
-    ]
+module.exports = {
+  resolve: {
+      extensions: [
+        '.ts',
+        '.js',
+        '.tsx'
+      ],
   }
+}
