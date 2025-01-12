@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import Test from './Test.tsx';
+import QuestionListPage from './components/QuestionListPage.tsx';
+import Test from './components/Test.tsx';
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
     <>
       <h2>テスト</h2>
       <Test/>
+      <QuestionListPage/>
     </>
   );
 }
