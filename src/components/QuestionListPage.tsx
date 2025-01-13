@@ -1,6 +1,16 @@
+import { Dialog } from "@mui/material";
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 function QuestionListPage() {
+
+    const navigate = useNavigate();
     // 一覧の型定義
     type list = {
         id: number
@@ -16,6 +26,41 @@ function QuestionListPage() {
         {id: 3, title: "問題3", questionCount: 20, updatedTime: "2025-01-01"},
         {id: 4, title: "問題4", questionCount: 30, updatedTime: "2025-01-01"},
     ]
+
+    // ダイアログで入力したカテゴリー名
+    const [title, setTitle] = useState("");
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const createQuestion = async() => {
+        const categoryInfo = {
+            title
+        }
+        try {
+            const response = await fetch("http://localhost:8080/add-category", {
+                method: "POST",
+                headers: {
+                  "Content-Type" : "application/json",
+                  "Accept": "application/json",
+                },
+                mode: "cors",
+                credentials: "include",
+                body: JSON.stringify(categoryInfo) 
+            })
+        } catch (e) {
+            alert("エラー発生");
+        }
+        setOpen(false);
+        navigate("/questions", { state: { title } });
+    };
 
     return (
         <>
@@ -46,6 +91,29 @@ function QuestionListPage() {
                 ))}
             </tbody>
         </table>
+        <button onClick={handleClickOpen}>問題作成</button>
+
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"問題作成"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            タイトル：<input type="text" value={title} onChange={(e) => setTitle(e.target.value)}></input>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>キャンセル</Button>
+          <Button onClick={createQuestion} autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
         </>
     )
 }
