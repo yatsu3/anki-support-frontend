@@ -30,6 +30,9 @@ function QuestionListPage() {
     // ダイアログで入力したカテゴリー名
     const [title, setTitle] = useState("");
 
+    // ユーザーID（仮）
+    const [userId, setUserId] = useState(1);
+
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -42,7 +45,8 @@ function QuestionListPage() {
 
     const createQuestion = async() => {
         const categoryInfo = {
-            title
+            title,
+            userId
         }
         try {
             const response = await fetch("http://localhost:8080/add-category", {
