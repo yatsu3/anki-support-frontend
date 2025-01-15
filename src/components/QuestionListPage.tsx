@@ -60,7 +60,7 @@ function QuestionListPage() {
                 body: JSON.stringify(categoryInfo) 
             })
         } catch (e) {
-            alert("エラー発生");
+            alert("問題タイトル追加時にエラーが発生しました。");
         }
         setOpen(false);
         navigate("/questions", { state: { title } });
