@@ -30,6 +30,9 @@ function QuestionListPage() {
     // ダイアログで入力したカテゴリー名
     const [title, setTitle] = useState("");
 
+    // ユーザーID（仮）
+    const [userId, setUserId] = useState(1);
+
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -42,7 +45,8 @@ function QuestionListPage() {
 
     const createQuestion = async() => {
         const categoryInfo = {
-            title
+            title,
+            userId
         }
         try {
             const response = await fetch("http://localhost:8080/add-category", {
@@ -56,7 +60,7 @@ function QuestionListPage() {
                 body: JSON.stringify(categoryInfo) 
             })
         } catch (e) {
-            alert("エラー発生");
+            alert("問題タイトル追加時にエラーが発生しました。");
         }
         setOpen(false);
         navigate("/questions", { state: { title } });

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
-import Typography from '@mui/material/Typography';
 import { useLocation } from "react-router-dom";
+import { SelectChangeEvent } from "@mui/material";
 
 interface Answer {
   id: number;
@@ -52,7 +52,7 @@ const ProblemCreationPage: React.FC = () => {
 
   // 正解の変更
   const handleCorrectAnswerChange = (
-    e: React.ChangeEvent<{ value: unknown }>
+    e: SelectChangeEvent<number>
   ) => {
     setCorrectAnswerId(Number(e.target.value));
   };
@@ -62,19 +62,37 @@ const ProblemCreationPage: React.FC = () => {
     setExplanation(e.target.value);
   };
 
+  // ユーザーID（仮）
+  const [userId, setUserId] = useState(1);
+
   // 問題を追加
-  const handleSubmit = () => {
-    const newProblem = {
+  const addQuestion = async() => {
+    const choices = answers.map(answer => answer.value)
+    const questionInfo = {
       category,
+      userId,
       question,
-      answers,
+      choices,
       correctAnswerId,
       explanation,
     };
-    console.log("新しい問題:", newProblem);
+
+    try {
+      const response = await fetch("http://localhost:8080/add-question", {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json",
+          "Accept": "application/json",
+        },
+        mode: "cors",
+        credentials: "include",
+        body: JSON.stringify(questionInfo) 
+    })
+    } catch(e) {
+      alert("問題追加時にエラーが発生しました。");
+    }
 
     // 初期化する場合
-    setCategory("");
     setQuestion("");
     setAnswers([
       { id: 1, value: "" },
@@ -133,7 +151,7 @@ const ProblemCreationPage: React.FC = () => {
         <InputLabel>正解</InputLabel>
         <Select
           value={correctAnswerId || ""}
-          onChange={ (e) => handleCorrectAnswerChange}
+          onChange={handleCorrectAnswerChange}
           label="正解"
         >
           <MenuItem value="" disabled>
@@ -161,7 +179,7 @@ const ProblemCreationPage: React.FC = () => {
       <Button
         variant="contained"
         color="primary"
-        onClick={handleSubmit}
+        onClick={addQuestion}
         style={{ marginTop: "20px" }}
       >
         問題を追加
