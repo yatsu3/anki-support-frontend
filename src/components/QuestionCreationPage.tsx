@@ -10,10 +10,10 @@ interface Answer {
 
 const ProblemCreationPage: React.FC = () => {
   const location = useLocation();
-  const title = location.state?.title || "";
-  const [category, setCategory] = useState(title);
+  const categoryName = location.state?.categoryName || "";
+  const [category, setCategory] = useState(categoryName);
   const [question, setQuestion] = useState("");
-  const [answers, setAnswers] = useState<Answer[]>([
+  const [choices, setChoices] = useState<Answer[]>([
     { id: 1, value: "" },
     { id: 2, value: "" },
   ]);
@@ -35,8 +35,8 @@ const ProblemCreationPage: React.FC = () => {
     id: number,
     value: string
   ) => {
-    setAnswers((prevAnswers) =>
-      prevAnswers.map((answer) =>
+    setChoices((prevChoices) =>
+      prevChoices.map((answer) =>
         answer.id === id ? { ...answer, value } : answer
       )
     );
@@ -44,9 +44,9 @@ const ProblemCreationPage: React.FC = () => {
 
   // 解答を追加
   const addAnswer = () => {
-    setAnswers((prevAnswers) => [
-      ...prevAnswers,
-      { id: prevAnswers.length + 1, value: "" },
+    setChoices((prevChoices) => [
+      ...prevChoices,
+      { id: prevChoices.length + 1, value: "" },
     ]);
   };
 
@@ -67,12 +67,12 @@ const ProblemCreationPage: React.FC = () => {
 
   // 問題を追加
   const addQuestion = async() => {
-    const choices = answers.map(answer => answer.value)
+    const choicesData = choices.map(answer => answer.value)
     const questionInfo = {
       category,
       userId,
       question,
-      choices,
+      choicesData,
       correctAnswerId,
       explanation,
     };
@@ -94,7 +94,7 @@ const ProblemCreationPage: React.FC = () => {
 
     // 初期化する場合
     setQuestion("");
-    setAnswers([
+    setChoices([
       { id: 1, value: "" },
       { id: 2, value: "" },
     ]);
@@ -127,7 +127,7 @@ const ProblemCreationPage: React.FC = () => {
         rows={4}
       />
 
-      {answers.map((answer) => (
+      {choices.map((answer) => (
         <TextField
           key={answer.id}
           fullWidth
@@ -157,7 +157,7 @@ const ProblemCreationPage: React.FC = () => {
           <MenuItem value="" disabled>
             正解を選択
           </MenuItem>
-          {answers.map((answer) => (
+          {choices.map((answer) => (
             <MenuItem key={answer.id} value={answer.id}>
               解答 {answer.id}
             </MenuItem>

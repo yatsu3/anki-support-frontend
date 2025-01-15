@@ -5,30 +5,47 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 function QuestionListPage() {
 
+  useEffect(() => {
+    getCategory();
+  }, [])
+
+  const [questions, setQuestions] = useState<list[]>([]);
+
+  const getCategory = async() => {
+    try {
+      const response = await fetch(`http://localhost:8080/get-category?userId=${encodeURIComponent(userId)}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        mode: "cors",
+        credentials: "include"
+      });
+      const json = await response.json();
+      setQuestions(json);
+
+    } catch(e) {
+      alert("カテゴリーの取得に失敗しました。");
+    }
+  }
+
     const navigate = useNavigate();
     // 一覧の型定義
     type list = {
-        id: number
-        title: string;
+        categoryId: number
+        categoryName: string;
         questionCount: number;
-        updatedTime: string;
     }
 
-    // 仮データ
-    const questions: list[] = [
-        {id: 1, title: "Azure Develop", questionCount: 10, updatedTime: "2025-01-01"},
-        {id: 2, title: "Java Gold", questionCount: 10, updatedTime: "2025-01-01"},
-        {id: 3, title: "問題3", questionCount: 20, updatedTime: "2025-01-01"},
-        {id: 4, title: "問題4", questionCount: 30, updatedTime: "2025-01-01"},
-    ]
 
     // ダイアログで入力したカテゴリー名
-    const [title, setTitle] = useState("");
+    const [categoryName, setCategory] = useState("");
 
     // ユーザーID（仮）
     const [userId, setUserId] = useState(1);
@@ -45,7 +62,7 @@ function QuestionListPage() {
 
     const createQuestion = async() => {
         const categoryInfo = {
-            title,
+            categoryName,
             userId
         }
         try {
@@ -63,7 +80,7 @@ function QuestionListPage() {
             alert("問題タイトル追加時にエラーが発生しました。");
         }
         setOpen(false);
-        navigate("/questions", { state: { title } });
+        navigate("/questions", { state: { categoryName } });
     };
 
     return (
@@ -74,21 +91,19 @@ function QuestionListPage() {
                 <tr>
                 <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0"}}>タイトル</th>
                 <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}>問題数</th>
-                <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}>更新日</th>
                 <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}></th>
                 </tr>
             </thead>
             <tbody>
                 {questions.map((question) => (
-                                <tr key={question.id}>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{question.title}</td>
+                                <tr key={question.categoryId}>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{question.categoryName}</td>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>{question.questionCount}</td>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{question.updatedTime}</td>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                        <button style={{ marginRight: "8px", width: "10em"}} onClick={() => alert(`テスト: ${question.title}`)}>
+                        <button style={{ marginRight: "8px", width: "10em"}} onClick={() => alert(`テスト`)}>
                         テスト
                         </button>
-                        <button style={{ width: "10em"}}onClick={() => alert(`編集: ${question.title}`)}>編集</button>
+                        <button style={{ width: "10em"}}onClick={() => alert(`編集`)}>編集</button>
                     </td>
                     </tr>
 
@@ -108,7 +123,7 @@ function QuestionListPage() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            タイトル：<input type="text" value={title} onChange={(e) => setTitle(e.target.value)}></input>
+            タイトル：<input type="text" value={categoryName} onChange={(e) => setCategory(e.target.value)}></input>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
