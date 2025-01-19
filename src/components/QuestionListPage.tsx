@@ -100,7 +100,7 @@ function QuestionListPage() {
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>{question.categoryName}</td>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>{question.questionCount}</td>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                        <button style={{ marginRight: "8px", width: "10em"}} onClick={() => alert(`テスト`)}>
+                        <button style={{ marginRight: "8px", width: "10em"}} onClick={() => navigate("/test", { state: { categoryId: question.categoryId, userId: userId } })}>
                         テスト
                         </button>
                         <button style={{ width: "10em"}}onClick={() => alert(`編集`)}>編集</button>
