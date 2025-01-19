@@ -7,6 +7,7 @@ interface Question {
   questionContent: string;
   choiceContents: string[];
   correctedAnswer: number;
+  explanation: string;
 }
 
 const QuestionAnswerPage = () => {
@@ -66,9 +67,9 @@ const userId = location.state?.userId || "";
   const checkAnswer = () => {
     if (selectedAnswer !== null) {
       if (selectedAnswer === currentQuestion.correctedAnswer) {
-        alert("正解！");
+        alert(`正解！ ${currentQuestion.explanation}`);
       } else {
-        alert("不正解！");
+        alert(`不正解！ 正解は「${currentQuestion.choiceContents[currentQuestion.correctedAnswer - 1]}」${currentQuestion.explanation}`);
       }
       goToNextQuestion();
     } else {
