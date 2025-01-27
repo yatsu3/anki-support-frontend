@@ -87,29 +87,39 @@ function QuestionListPage() {
         <>
         <h2>問題一覧</h2>
         <table style={{ borderCollapse: "collapse", width: "100%" }}>
-            <thead>
-                <tr>
-                <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0"}}>タイトル</th>
-                <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}>問題数</th>
-                <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}></th>
-                </tr>
-            </thead>
-            <tbody>
-                {questions.map((question) => (
-                                <tr key={question.categoryId}>
+    <thead>
+        <tr>
+            <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}>タイトル</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}>問題数</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}></th>
+        </tr>
+    </thead>
+    <tbody>
+        {questions && questions.length > 0 ? (
+            questions.map((question) => (
+                <tr key={question.categoryId}>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>{question.categoryName}</td>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>{question.questionCount}</td>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                        <button style={{ marginRight: "8px", width: "10em"}} onClick={() => navigate("/test", { state: { categoryId: question.categoryId, userId: userId } })}>
-                        テスト
+                        <button
+                            style={{ marginRight: "8px", width: "10em" }}
+                            onClick={() => navigate("/test", { state: { categoryId: question.categoryId, userId: userId } })}
+                        >
+                            テスト
                         </button>
-                        <button style={{ width: "10em"}}onClick={() => alert(`編集`)}>編集</button>
+                        <button style={{ width: "10em" }} onClick={() => alert(`編集`)}>
+                            編集
+                        </button>
                     </td>
-                    </tr>
-
-                ))}
-            </tbody>
-        </table>
+                </tr>
+            ))
+        ) : (
+            <tr>
+                <td colSpan={3} style={{ textAlign: "center", padding: "8px" }}>データがありません</td>
+            </tr>
+        )}
+    </tbody>
+</table>
         <button onClick={handleClickOpen}>問題作成</button>
 
         <Dialog
