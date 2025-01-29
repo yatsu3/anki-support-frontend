@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
-function QuestionListPage() {
+function CategoryListPage() {
 
   useEffect(() => {
     getCategory();
@@ -85,11 +85,11 @@ function QuestionListPage() {
 
     return (
         <>
-        <h2>問題一覧</h2>
+        <h2>カテゴリー一覧</h2>
         <table style={{ borderCollapse: "collapse", width: "100%" }}>
     <thead>
         <tr>
-            <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}>タイトル</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}>カテゴリータイトル</th>
             <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}>問題数</th>
             <th style={{ border: "1px solid #ddd", padding: "8px", backgroundColor: "#c0c0c0" }}></th>
         </tr>
@@ -146,4 +146,4 @@ function QuestionListPage() {
         </>
     )
 }
-export default QuestionListPage;
+export default CategoryListPage;
