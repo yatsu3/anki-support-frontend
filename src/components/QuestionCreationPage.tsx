@@ -10,24 +10,23 @@ interface Answer {
 
 const ProblemCreationPage: React.FC = () => {
   const location = useLocation();
-  const categoryName = location.state?.categoryName || "";
-  const [category, setCategory] = useState(categoryName);
-  const [question, setQuestion] = useState("");
+  const [categoryName, setCategoryName] = useState(location.state?.categoryName || "");
+  const [questionContent, setQuestionContent] = useState("");
   const [choices, setChoices] = useState<Answer[]>([
     { id: 1, value: "" },
     { id: 2, value: "" },
   ]);
-  const [correctAnswerId, setCorrectAnswerId] = useState<number | null>(null);
+  const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
   const [explanation, setExplanation] = useState("");
 
   // カテゴリーの変更
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory(e.target.value);
+    setCategoryName(e.target.value);
   };
 
   // 問題の変更
   const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setQuestion(e.target.value);
+    setQuestionContent(e.target.value);
   };
 
   // 解答の変更
@@ -54,7 +53,7 @@ const ProblemCreationPage: React.FC = () => {
   const handleCorrectAnswerChange = (
     e: SelectChangeEvent<number>
   ) => {
-    setCorrectAnswerId(Number(e.target.value));
+    setCorrectAnswer(Number(e.target.value));
   };
 
   // 解説の変更
@@ -69,11 +68,11 @@ const ProblemCreationPage: React.FC = () => {
   const addQuestion = async() => {
     const choicesData = choices.map(answer => answer.value)
     const questionInfo = {
-      category,
+      categoryName,
       userId,
-      question,
+      questionContent,
       choicesData,
-      correctAnswerId,
+      correctAnswer,
       explanation,
     };
 
@@ -93,12 +92,12 @@ const ProblemCreationPage: React.FC = () => {
     }
 
     // 初期化する場合
-    setQuestion("");
+    setQuestionContent("");
     setChoices([
       { id: 1, value: "" },
       { id: 2, value: "" },
     ]);
-    setCorrectAnswerId(null);
+    setCorrectAnswer(null);
     setExplanation("");
   };
 
@@ -109,7 +108,7 @@ const ProblemCreationPage: React.FC = () => {
       <TextField
         fullWidth
         label="カテゴリー"
-        value={category}
+        value={categoryName}
         onChange={handleCategoryChange}
         variant="outlined"
         margin="normal"
@@ -119,7 +118,7 @@ const ProblemCreationPage: React.FC = () => {
       <TextField
         fullWidth
         label="問題"
-        value={question}
+        value={questionContent}
         onChange={handleQuestionChange}
         variant="outlined"
         margin="normal"
@@ -150,7 +149,7 @@ const ProblemCreationPage: React.FC = () => {
       <FormControl fullWidth margin="normal">
         <InputLabel>正解</InputLabel>
         <Select
-          value={correctAnswerId || ""}
+          value={correctAnswer || ""}
           onChange={handleCorrectAnswerChange}
           label="正解"
         >
