@@ -7,8 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useNavigate } from "react-router-dom";
 
 const QuestionListPage = () => {
+
+  const navigate = useNavigate();
 
   interface Question {
     questionId,
@@ -62,7 +65,7 @@ const QuestionListPage = () => {
               <TableCell component="th" scope="row">
                 {question.questionContent}
               </TableCell>
-              <TableCell><button>編集</button><button>削除</button></TableCell>
+              <TableCell><button onClick={() => navigate("/edit-question", {state: {questionId: question.questionId, userId: userId}})}>編集</button><button>削除</button></TableCell>
             </TableRow>
           ))
         ) : (

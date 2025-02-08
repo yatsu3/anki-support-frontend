@@ -5,6 +5,7 @@ import CategoryListPage from './components/CategoryListPage.tsx';
 import QuestionCreationPage from './components/QuestionCreationPage.tsx';
 import QuestionAnswerPage from './components/QuestionAnswerPage.tsx';
 import QuestionListPage from './components/QuestionListPage.tsx';
+import QuestionEditPage from './components/QuestionEditPage.tsx';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<CategoryListPage/>} />
         <Route path="/question-list" element={<QuestionListPage/>} />
         <Route path="/questions" element={<QuestionCreationPage/>} />
+        <Route path="/edit-question" element={<QuestionEditPage/>} />
         <Route path="/test" element={<QuestionAnswerPage/>}/>
       </Routes>
     </Router>
