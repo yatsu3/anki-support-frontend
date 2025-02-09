@@ -20,6 +20,7 @@ const QuestionListPage = () => {
 
   const location = useLocation();
   const categoryId = location.state?.categoryId || "";
+  const categoryName = location.state?.categoryName || "";
   const userId = location.state?.userId || "";
 
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -47,6 +48,7 @@ const QuestionListPage = () => {
   }
 
   return (
+    <>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -78,6 +80,8 @@ const QuestionListPage = () => {
         </TableBody>
       </Table>
     </TableContainer>
+    <button onClick={() => navigate("/questions", { state: { categoryName } })}>追加</button>
+    </>
   );
 
 }
