@@ -107,7 +107,7 @@ function CategoryListPage() {
                         >
                             テスト
                         </button>
-                        <button style={{ width: "10em" }} onClick={() => navigate("/question-list", {state: {categoryId: question.categoryId, userId: userId}})}>
+                        <button style={{ width: "10em" }} onClick={() => navigate("/question-list", {state: {categoryId: question.categoryId, userId: userId, categoryName: question.categoryName}})}>
                             編集
                         </button>
                     </td>
