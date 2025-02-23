@@ -19,7 +19,7 @@ function CategoryListPage() {
   }, [])
 
   const [questions, setQuestions] = useState<list[]>([]);
-      // ユーザーID（仮）
+      // TODO: 今はuuidを使い回ししているが、バックエンドで採番したuserIdを設定したい
     const [uuid, setUuid] = useState(user.uid);
 
 

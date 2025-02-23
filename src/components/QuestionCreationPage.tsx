@@ -61,15 +61,14 @@ const ProblemCreationPage: React.FC = () => {
     setExplanation(e.target.value);
   };
 
-  // ユーザーID（仮）
-  const [userId, setUserId] = useState(1);
+  const [uuid, setUuid] = useState(location.state?.uuid || "");
 
   // 問題を追加
   const addQuestion = async() => {
     const choicesData = choices.map(answer => answer.value)
     const questionInfo = {
       categoryName,
-      userId,
+      uuid,
       questionContent,
       choicesData,
       correctAnswer,

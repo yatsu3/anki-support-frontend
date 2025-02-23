@@ -80,7 +80,7 @@ const QuestionListPage = () => {
         </TableBody>
       </Table>
     </TableContainer>
-    <button onClick={() => navigate("/questions", { state: { categoryName } })}>追加</button>
+    <button onClick={() => navigate("/questions", { state: { categoryName: categoryName, uuid: uuid } })}>追加</button>
     </>
   );
 
