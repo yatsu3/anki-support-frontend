@@ -25,7 +25,7 @@ const QuestionEditPage: React.FC = () => {
   }, []);
 
   const questionId = location.state?.questionId || "";
-  const [userId, setUserId] = useState(location.state?.userId || "");
+  const [uuid, setUuid] = useState(location.state?.uuid || "");
 
 
   const getQuestion = async() => {
@@ -35,7 +35,7 @@ const QuestionEditPage: React.FC = () => {
           headers: {
               "Content-Type": "application/json",
               "Accept": "application/json",
-              "userId": userId
+              "uuid": uuid
           },
       mode: "cors",
       credentials: "include"
@@ -113,7 +113,7 @@ const QuestionEditPage: React.FC = () => {
     const questionInfo = {
       questionId,
       categoryName,
-      userId,
+      uuid,
       questionContent,
       choicesData: choicesData,
       correctAnswer,

@@ -24,11 +24,9 @@ const Header: React.FC = () => {
       <Toolbar>
         <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
         </IconButton>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          ヘッダー
+        <Typography variant="h6" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => navigate("/")}>
+          HOME
         </Typography>
-            <Button color="inherit" onClick={() => {navigate('/test');}}>テスト</Button>
-            <Button color="inherit" onClick={() => {navigate('/question-list');}}>問題一覧</Button>
             <Button color="inherit" onClick={() => logout()}>ログアウト</Button>
       </Toolbar>
     </AppBar>

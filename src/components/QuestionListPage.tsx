@@ -21,7 +21,7 @@ const QuestionListPage = () => {
   const location = useLocation();
   const categoryId = location.state?.categoryId || "";
   const categoryName = location.state?.categoryName || "";
-  const userId = location.state?.userId || "";
+  const uuid = location.state?.uuid || "";
 
   const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -31,7 +31,7 @@ const QuestionListPage = () => {
 
   const getQuestionList = async() => {
     try {
-      const response = await fetch(`http://localhost:8080/question-list?categoryId=${encodeURIComponent(categoryId)}&userId=${encodeURIComponent(userId)}`, {
+      const response = await fetch(`http://localhost:8080/question-list?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, {
           method: "GET",
           headers: {
               "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const QuestionListPage = () => {
               <TableCell component="th" scope="row">
                 {question.questionContent}
               </TableCell>
-              <TableCell><button onClick={() => navigate("/edit-question", {state: {questionId: question.questionId, userId: userId}})}>編集</button><button>削除</button></TableCell>
+              <TableCell><button onClick={() => navigate("/edit-question", {state: {questionId: question.questionId, uuid: uuid}})}>編集</button><button>削除</button></TableCell>
             </TableRow>
           ))
         ) : (

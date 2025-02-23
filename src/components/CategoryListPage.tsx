@@ -7,18 +7,25 @@ import Button from '@mui/material/Button';
 
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.tsx";
+
 
 function CategoryListPage() {
+
+  const { user } = useAuth();
 
   useEffect(() => {
     getCategory();
   }, [])
 
   const [questions, setQuestions] = useState<list[]>([]);
+      // ユーザーID（仮）
+    const [uuid, setUuid] = useState(user.uid);
+
 
   const getCategory = async() => {
     try {
-      const response = await fetch(`http://localhost:8080/get-category?userId=${encodeURIComponent(userId)}`, {
+      const response = await fetch(`http://localhost:8080/get-category?uuid=${encodeURIComponent(uuid)}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -47,8 +54,6 @@ function CategoryListPage() {
     // ダイアログで入力したカテゴリー名
     const [categoryName, setCategory] = useState("");
 
-    // ユーザーID（仮）
-    const [userId, setUserId] = useState(1);
 
     const [open, setOpen] = React.useState(false);
 
@@ -63,7 +68,7 @@ function CategoryListPage() {
     const createQuestion = async() => {
         const categoryInfo = {
             categoryName,
-            userId
+            uuid
         }
         try {
             const response = await fetch("http://localhost:8080/add-category", {
@@ -103,11 +108,11 @@ function CategoryListPage() {
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                         <button
                             style={{ marginRight: "8px", width: "10em" }}
-                            onClick={() => navigate("/test", { state: { categoryId: question.categoryId, userId: userId } })}
+                            onClick={() => navigate("/test", { state: { categoryId: question.categoryId, uuid: uuid } })}
                         >
                             テスト
                         </button>
-                        <button style={{ width: "10em" }} onClick={() => navigate("/question-list", {state: {categoryId: question.categoryId, userId: userId, categoryName: question.categoryName}})}>
+                        <button style={{ width: "10em" }} onClick={() => navigate("/question-list", {state: {categoryId: question.categoryId, uuid: uuid, categoryName: question.categoryName}})}>
                             編集
                         </button>
                     </td>
