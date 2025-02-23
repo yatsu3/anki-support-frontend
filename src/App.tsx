@@ -12,23 +12,13 @@ import LandingPage from './components/LandingPage.tsx';
 import Login from './components/Login.tsx';
 import SignUp from './components/SignUp.tsx';
 import Header from './Header.tsx';
-
-
-type UserType = User | null;
+import { useAuth } from "./contexts/AuthContext.tsx";
 
 function App() {
-
-  const [user, setUser] = useState<UserType>(null);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-    return () => {
-      unsubscribe(); // クリーンアップ
-    };
-  }, []);
-
+  const { user, loading } = useAuth();
+  if (loading) {
+    return <div>Loading...</div>; // ローディング中の表示
+  }
   return (
     <Router>
       {user ? (

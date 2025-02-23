@@ -14,7 +14,7 @@ const QuestionAnswerPage = () => {
 
 const location = useLocation();
 const categoryId = location.state?.categoryId || "";
-const userId = location.state?.userId || "";
+const uuid = location.state?.uuid || "";
 
   
   // 問題リストの状態
@@ -38,7 +38,7 @@ const userId = location.state?.userId || "";
 
   const fetchQuestions = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/get-questions?categoryId=${encodeURIComponent(categoryId)}&userId=${encodeURIComponent(userId)}`, {
+      const response = await fetch(`http://localhost:8080/get-questions?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, {
           method: "GET",
           headers: {
               "Content-Type": "application/json",
