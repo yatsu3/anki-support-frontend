@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material";
+import { useAuth } from "../contexts/AuthContext.tsx";
+
 
 interface Answer {
   id: number;
@@ -9,6 +11,9 @@ interface Answer {
 }
 
 const ProblemCreationPage: React.FC = () => {
+  const { user } = useAuth();
+
+
   const location = useLocation();
   const [categoryName, setCategoryName] = useState(location.state?.categoryName || "");
   const [questionContent, setQuestionContent] = useState("");
@@ -81,6 +86,7 @@ const ProblemCreationPage: React.FC = () => {
         headers: {
           "Content-Type" : "application/json",
           "Accept": "application/json",
+          "Authorization": "Bearer " + user.accessToken
         },
         mode: "cors",
         credentials: "include",

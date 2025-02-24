@@ -30,8 +30,8 @@ function CategoryListPage() {
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
+          "Authorization": "Bearer " + user.accessToken
         },
-        mode: "cors",
         credentials: "include"
       });
       const json = await response.json();
@@ -76,6 +76,7 @@ function CategoryListPage() {
                 headers: {
                   "Content-Type" : "application/json",
                   "Accept": "application/json",
+                  "Authorization": "Bearer " + user.accessToken
                 },
                 mode: "cors",
                 credentials: "include",

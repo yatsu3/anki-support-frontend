@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.tsx";
+
 
 // 1問の問題データの型
 interface Question {
@@ -15,6 +17,9 @@ const QuestionAnswerPage = () => {
 const location = useLocation();
 const categoryId = location.state?.categoryId || "";
 const uuid = location.state?.uuid || "";
+
+const { user } = useAuth();
+
 
   
   // 問題リストの状態
@@ -43,7 +48,8 @@ const uuid = location.state?.uuid || "";
           headers: {
               "Content-Type": "application/json",
               "Accept": "application/json",
-          },
+              "Authorization": "Bearer " + user.accessToken
+            },
       mode: "cors",
       credentials: "include"
       });
