@@ -8,8 +8,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.tsx";
+
 
 const QuestionListPage = () => {
+  const { user } = useAuth();
 
   const navigate = useNavigate();
 
@@ -36,6 +39,8 @@ const QuestionListPage = () => {
           headers: {
               "Content-Type": "application/json",
               "Accept": "application/json",
+              "Authorization": "Bearer " + user.accessToken
+
           },
       mode: "cors",
       credentials: "include"

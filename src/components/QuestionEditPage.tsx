@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material";
+import { useAuth } from "../contexts/AuthContext.tsx";
 
 interface Answer {
   id: number;
@@ -10,6 +11,8 @@ interface Answer {
 }
 
 const QuestionEditPage: React.FC = () => {
+  const { user } = useAuth();
+
   const location = useLocation();
   const [categoryName, setCategoryName] = useState(location.state?.categoryName || "");
   const [questionContent, setQuestionContent] = useState("");
@@ -30,12 +33,12 @@ const QuestionEditPage: React.FC = () => {
 
   const getQuestion = async() => {
     try {
-      const response = await fetch(`http://localhost:8080/questions/${questionId}`, {
+      const response = await fetch(`http://localhost:8080/questions/${questionId}?uuid=${uuid}`, {
           method: "GET",
           headers: {
               "Content-Type": "application/json",
               "Accept": "application/json",
-              "uuid": uuid
+              "Authorization": "Bearer " + user.accessToken,
           },
       mode: "cors",
       credentials: "include"
@@ -126,6 +129,7 @@ const QuestionEditPage: React.FC = () => {
         headers: {
           "Content-Type" : "application/json",
           "Accept": "application/json",
+          "Authorization": "Bearer " + user.accessToken
         },
         mode: "cors",
         credentials: "include",
