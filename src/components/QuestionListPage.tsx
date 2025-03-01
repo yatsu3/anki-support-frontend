@@ -9,10 +9,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.tsx";
+import { useApi } from "../utils/api.ts";
 
 
 const QuestionListPage = () => {
   const { user } = useAuth();
+  const { getApi } = useApi();
+
 
   const navigate = useNavigate();
 
@@ -34,19 +37,8 @@ const QuestionListPage = () => {
 
   const getQuestionList = async() => {
     try {
-      const response = await fetch(`http://localhost:8080/question-list?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-              "Authorization": "Bearer " + user.accessToken
-
-          },
-      mode: "cors",
-      credentials: "include"
-      });
-      const data = await response.json();
-      setQuestions(data);
+      const response = await getApi(`http://localhost:8080/question-list?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, user.accessToken);
+      setQuestions(response);
     } catch (error) {
       console.error("問題の取得に失敗しました:", error);
     }

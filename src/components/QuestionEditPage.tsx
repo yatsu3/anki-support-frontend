@@ -3,6 +3,8 @@ import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from "@m
 import { useLocation } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext.tsx";
+import { useApi } from "../utils/api.ts";
+
 
 interface Answer {
   id: number;
@@ -12,6 +14,8 @@ interface Answer {
 
 const QuestionEditPage: React.FC = () => {
   const { user } = useAuth();
+
+  const { getApi, postApi } = useApi();
 
   const location = useLocation();
   const [categoryName, setCategoryName] = useState(location.state?.categoryName || "");
@@ -33,25 +37,13 @@ const QuestionEditPage: React.FC = () => {
 
   const getQuestion = async() => {
     try {
-      const response = await fetch(`http://localhost:8080/questions/${questionId}?uuid=${uuid}`, {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-              "Authorization": "Bearer " + user.accessToken,
-          },
-      mode: "cors",
-      credentials: "include"
-      });
-      if (!response.ok) {
-        alert("問題取得に失敗");
-      }
-      const data = await response.json();
-      setCategoryName(data.categoryName);
-      setQuestionContent(data.questionContent);
-      setChoices(data.choiceList.map((choice, index) => ({ id: index + 1, value: choice.choiceContent, choiceId: choice.choiceId })));
-      setCorrectAnswer(data.answerContent);
-      setExplanation(data.explanation);
+      const response = await getApi(`http://localhost:8080/questions/${questionId}?uuid=${uuid}`, user.accessToken);
+
+      setCategoryName(response.categoryName);
+      setQuestionContent(response.questionContent);
+      setChoices(response.choiceList.map((choice, index) => ({ id: index + 1, value: choice.choiceContent, choiceId: choice.choiceId })));
+      setCorrectAnswer(response.answerContent);
+      setExplanation(response.explanation);
 
     } catch (error) {
       console.error("問題の取得に失敗しました:", error);
@@ -124,17 +116,7 @@ const QuestionEditPage: React.FC = () => {
     };
 
     try {
-      const response = await fetch(`http://localhost:8080/questions/${questionId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type" : "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer " + user.accessToken
-        },
-        mode: "cors",
-        credentials: "include",
-        body: JSON.stringify(questionInfo) 
-    })
+      await postApi(`http://localhost:8080/questions/${questionId}`,user.accessToken, questionInfo);
     } catch(e) {
       alert("問題追加時にエラーが発生しました。");
     }

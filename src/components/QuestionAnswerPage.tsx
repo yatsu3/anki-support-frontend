@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.tsx";
+import { useApi } from "../utils/api.ts";
+
 
 
 // 1問の問題データの型
@@ -13,6 +15,9 @@ interface Question {
 }
 
 const QuestionAnswerPage = () => {
+
+  const { getApi, postApi } = useApi();
+
 
 const location = useLocation();
 const categoryId = location.state?.categoryId || "";
@@ -43,19 +48,9 @@ const { user } = useAuth();
 
   const fetchQuestions = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/get-questions?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-              "Authorization": "Bearer " + user.accessToken
-            },
-      mode: "cors",
-      credentials: "include"
-      });
-      const data = await response.json();
-      setQuestions(data);
-      setCurrentQuestion(data[0]);
+      const response = await getApi(`http://localhost:8080/get-questions?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, user.accessToken);
+      setQuestions(response);
+      setCurrentQuestion(response[0]);
     } catch (error) {
       console.error("問題の取得に失敗しました:", error);
     }

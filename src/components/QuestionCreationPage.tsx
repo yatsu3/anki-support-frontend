@@ -3,6 +3,7 @@ import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from "@m
 import { useLocation } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext.tsx";
+import { useApi } from "../utils/api.ts";
 
 
 interface Answer {
@@ -13,6 +14,7 @@ interface Answer {
 const ProblemCreationPage: React.FC = () => {
   const { user } = useAuth();
 
+  const { getApi, postApi } = useApi();
 
   const location = useLocation();
   const [categoryName, setCategoryName] = useState(location.state?.categoryName || "");
@@ -81,17 +83,7 @@ const ProblemCreationPage: React.FC = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/add-question", {
-        method: "POST",
-        headers: {
-          "Content-Type" : "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer " + user.accessToken
-        },
-        mode: "cors",
-        credentials: "include",
-        body: JSON.stringify(questionInfo) 
-    })
+      await postApi("http://localhost:8080/add-question", user.accessToken, questionInfo);
     } catch(e) {
       alert("問題追加時にエラーが発生しました。");
     }
