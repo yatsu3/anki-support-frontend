@@ -8,9 +8,11 @@ import Button from '@mui/material/Button';
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.tsx";
+import { useApi } from "../utils/api.ts";
 
 
 function CategoryListPage() {
+  const { getApi, postApi } = useApi();
 
   const { user } = useAuth();
 
@@ -22,21 +24,10 @@ function CategoryListPage() {
       // TODO: 今はuuidを使い回ししているが、バックエンドで採番したuserIdを設定したい
     const [uuid, setUuid] = useState(user.uid);
 
-
   const getCategory = async() => {
     try {
-      const response = await fetch(`http://localhost:8080/get-category?uuid=${encodeURIComponent(uuid)}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer " + user.accessToken
-        },
-        credentials: "include"
-      });
-      const json = await response.json();
-      setQuestions(json);
-
+      const response = await getApi(`http://localhost:8080/get-category?uuid=${encodeURIComponent(uuid)}`, user.accessToken);
+      setQuestions(response);
     } catch(e) {
       alert("カテゴリーの取得に失敗しました。");
     }
@@ -71,22 +62,12 @@ function CategoryListPage() {
             uuid
         }
         try {
-            const response = await fetch("http://localhost:8080/add-category", {
-                method: "POST",
-                headers: {
-                  "Content-Type" : "application/json",
-                  "Accept": "application/json",
-                  "Authorization": "Bearer " + user.accessToken
-                },
-                mode: "cors",
-                credentials: "include",
-                body: JSON.stringify(categoryInfo) 
-            })
+            await postApi("http://localhost:8080/add-category", user.accessToken, categoryInfo);
         } catch (e) {
             alert("問題タイトル追加時にエラーが発生しました。");
         }
         setOpen(false);
-        navigate("/questions", { state: { categoryName } });
+        navigate("/questions", { state: { categoryName: categoryName, uuid: uuid } });
     };
 
     return (
