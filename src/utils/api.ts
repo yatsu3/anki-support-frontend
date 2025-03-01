@@ -32,7 +32,7 @@ export const useApi = () => {
             body: JSON.stringify(body)
         });
         if (!response.ok) {
-            throw new Error(`${response.status}`);
+            throw new Error(`API呼び出しに失敗しました。 status: ${response.status}`);
         }
     }
 }
