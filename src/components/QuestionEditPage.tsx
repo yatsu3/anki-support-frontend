@@ -117,6 +117,7 @@ const QuestionEditPage: React.FC = () => {
 
     try {
       await postApi(`http://localhost:8080/questions/${questionId}`,user.accessToken, questionInfo);
+      alert("問題を更新しました。")
     } catch(e) {
       alert("問題追加時にエラーが発生しました。");
     }

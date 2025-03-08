@@ -84,18 +84,19 @@ const ProblemCreationPage: React.FC = () => {
 
     try {
       await postApi("http://localhost:8080/add-question", user.accessToken, questionInfo);
+          // 初期化する場合
+      setQuestionContent("");
+      setChoices([
+        { id: 1, value: "" },
+        { id: 2, value: "" },
+      ]);
+      setCorrectAnswer(null);
+      setExplanation("");
     } catch(e) {
       alert("問題追加時にエラーが発生しました。");
     }
+    alert("問題を追加しました。")
 
-    // 初期化する場合
-    setQuestionContent("");
-    setChoices([
-      { id: 1, value: "" },
-      { id: 2, value: "" },
-    ]);
-    setCorrectAnswer(null);
-    setExplanation("");
   };
 
   return (
