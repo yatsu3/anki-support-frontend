@@ -60,6 +60,9 @@ const Auth: React.FC = () => {
               />
               <TextField
                 style={{ marginTop: "0.5em", marginBottom: "0.5em" }}
+                id="outlined-password-input"
+                type="password"
+                autoComplete="current-password"
                 name="password"
                 label="Password"
                 fullWidth
