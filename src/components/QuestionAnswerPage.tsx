@@ -1,8 +1,10 @@
+import Button from "@mui/material/Button/Button";
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.tsx";
 import { useApi } from "../utils/api.ts";
-
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 
 
 // 1問の問題データの型
@@ -65,9 +67,9 @@ const { user } = useAuth();
   };
 
   // 回答が正解かどうかをチェック
-  const checkAnswer = () => {
-    if (selectedAnswer !== null) {
-      if (selectedAnswer === currentQuestion.correctedAnswer) {
+  const checkAnswer = (index) => {
+    if (index !== null) {
+      if (index === currentQuestion.correctedAnswer) {
         alert(`正解！${currentQuestion.explanation}`);
       } else {
         alert(`不正解！正解は${currentQuestion.correctedAnswer}。${currentQuestion.explanation}`);
@@ -79,31 +81,43 @@ const { user } = useAuth();
   };
 
   return (
+    <>
     <div>
       {currentQuestion ? (
         <div>
           <h2>{currentQuestion.questionContent}</h2>
+          <center>
           <div>
-            {currentQuestion.choiceContents?.map((choice, index) => (
-              <div key={index}>
-                <input
-                  type="radio"
-                  id={`choice-${index}`}
-                  name="answer"
-                  value={index + 1}
-                  onChange={() => setSelectedAnswer(index + 1)}
-                  checked={selectedAnswer === index + 1}
-                />
-                <label htmlFor={`choice-${index}`}>{choice}</label>
-              </div>
-            ))}
+          <Box 
+  sx={{ 
+    width: "50%", 
+    display: "flex", 
+    flexDirection: "column",
+    alignItems: "center", // 水平方向の中央揃え
+  }}
+>
+  <Stack spacing={2} sx={{ width: "100%" }} alignItems="center">
+    {currentQuestion.choiceContents?.map((choice, index) => (
+      <Button
+        key={index}
+        variant="contained"
+        value={`choice-${index}`}
+        onClick={() => checkAnswer(index + 1)}
+        sx={{ width: "50%" }}  // ボタンの幅を一律 50% に固定
+      >
+        {choice}
+      </Button>
+    ))}
+  </Stack>
+</Box>
           </div>
-          <button onClick={checkAnswer}>答えを送信</button>
+          </center>
         </div>
       ) : (
         <p>問題を読み込んでいます...</p>
       )}
     </div>
+    </>
   );
 };
 
