@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
-import { auth } from "../src/firebase.ts";
-import type { User } from "firebase/auth";
-import CategoryListPage from './components/CategoryListPage.tsx';
-import QuestionCreationPage from './components/QuestionCreationPage.tsx';
-import QuestionAnswerPage from './components/QuestionAnswerPage.tsx';
-import QuestionListPage from './components/QuestionListPage.tsx';
-import QuestionEditPage from './components/QuestionEditPage.tsx';
-import LandingPage from './components/LandingPage.tsx';
-import Login from './components/Login.tsx';
-import SignUp from './components/SignUp.tsx';
-import Header from './Header.tsx';
-import { useAuth } from "./contexts/AuthContext.tsx";
+import CategoryListPage from './components/CategoryListPage';
+import QuestionCreationPage from './components/QuestionCreationPage';
+import QuestionAnswerPage from './components/QuestionAnswerPage';
+import QuestionListPage from './components/QuestionListPage';
+import QuestionEditPage from './components/QuestionEditPage';
+import LandingPage from './components/LandingPage';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import Header from './Header';
+import { useAuth } from "./contexts/AuthContext";
 
 function App() {
-  const { user, loading } = useAuth();
+  const {user, loading} = useAuth();
   if (loading) {
     return <div>Loading...</div>; // ローディング中の表示
   }

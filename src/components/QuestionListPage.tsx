@@ -8,8 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext.tsx";
-import { useApi } from "../utils/api.ts";
+import { useAuth } from "../contexts/AuthContext";
+import { useApi } from "../utils/api";
 
 
 const QuestionListPage = () => {
@@ -37,7 +37,7 @@ const QuestionListPage = () => {
 
   const getQuestionList = async() => {
     try {
-      const response = await getApi(`http://localhost:8080/question-list?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, user.accessToken);
+      const response = await getApi(`http://localhost:8080/question-list?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, uuid);
       setQuestions(response);
     } catch (error) {
       console.error("問題の取得に失敗しました:", error);

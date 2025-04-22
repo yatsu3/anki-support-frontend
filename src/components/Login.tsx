@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { auth } from "../firebase.ts";
+import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
 } from "firebase/auth";

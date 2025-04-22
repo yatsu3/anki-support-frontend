@@ -1,6 +1,6 @@
 // src/contexts/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../firebase.ts";
+import { auth } from "../firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 
 // 認証用の型定義
