@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material";
-import { useAuth } from "../contexts/AuthContext.tsx";
-import { useApi } from "../utils/api.ts";
+import { useAuth } from "../contexts/AuthContext";
+import { useApi } from "../utils/api";
 
 
 interface Answer {
@@ -83,7 +83,8 @@ const ProblemCreationPage: React.FC = () => {
     };
 
     try {
-      await postApi("http://localhost:8080/add-question", user.accessToken, questionInfo);
+      const token = await user.getIdToken();
+      await postApi("http://localhost:8080/add-question", token, questionInfo);
           // 初期化する場合
       setQuestionContent("");
       setChoices([

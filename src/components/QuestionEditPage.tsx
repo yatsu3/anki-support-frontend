@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material";
-import { useAuth } from "../contexts/AuthContext.tsx";
-import { useApi } from "../utils/api.ts";
+import { useAuth } from "../contexts/AuthContext";
+import { useApi } from "../utils/api";
 
 
 interface Answer {
@@ -37,7 +37,7 @@ const QuestionEditPage: React.FC = () => {
 
   const getQuestion = async() => {
     try {
-      const response = await getApi(`http://localhost:8080/questions/${questionId}?uuid=${uuid}`, user.accessToken);
+      const response = await getApi(`http://localhost:8080/questions/${questionId}?uuid=${uuid}`, uuid);
 
       setCategoryName(response.categoryName);
       setQuestionContent(response.questionContent);
@@ -116,7 +116,7 @@ const QuestionEditPage: React.FC = () => {
     };
 
     try {
-      await postApi(`http://localhost:8080/questions/${questionId}`,user.accessToken, questionInfo);
+      await postApi(`http://localhost:8080/questions/${questionId}`,uuid, questionInfo);
       alert("問題を更新しました。")
     } catch(e) {
       alert("問題追加時にエラーが発生しました。");

@@ -1,8 +1,8 @@
 import Button from "@mui/material/Button/Button";
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext.tsx";
-import { useApi } from "../utils/api.ts";
+import { useAuth } from "../contexts/AuthContext";
+import { useApi } from "../utils/api";
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
@@ -50,7 +50,8 @@ const { user } = useAuth();
 
   const fetchQuestions = async () => {
     try {
-      const response = await getApi(`http://localhost:8080/get-questions?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, user.accessToken);
+      const token = await user.getIdToken();
+      const response = await getApi(`http://localhost:8080/get-questions?categoryId=${encodeURIComponent(categoryId)}&uuid=${encodeURIComponent(uuid)}`, token);
       setQuestions(response);
       setCurrentQuestion(response[0]);
     } catch (error) {

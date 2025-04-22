@@ -7,8 +7,8 @@ import Button from '@mui/material/Button';
 
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext.tsx";
-import { useApi } from "../utils/api.ts";
+import { useAuth } from "../contexts/AuthContext";
+import { useApi } from "../utils/api";
 
 
 function CategoryListPage() {
@@ -26,7 +26,8 @@ function CategoryListPage() {
 
   const getCategory = async() => {
     try {
-      const response = await getApi(`http://localhost:8080/get-category?uuid=${encodeURIComponent(uuid)}`, user.accessToken);
+      const token = await user.getIdToken();
+      const response = await getApi(`http://localhost:8080/get-category?uuid=${encodeURIComponent(uuid)}`, token);
       setQuestions(response);
     } catch(e) {
       alert("カテゴリーの取得に失敗しました。");
@@ -62,7 +63,8 @@ function CategoryListPage() {
             uuid
         }
         try {
-            await postApi("http://localhost:8080/add-category", user.accessToken, categoryInfo);
+          const token = await user.getIdToken();
+            await postApi("http://localhost:8080/add-category", token, categoryInfo);
         } catch (e) {
             alert("問題タイトル追加時にエラーが発生しました。");
         }
