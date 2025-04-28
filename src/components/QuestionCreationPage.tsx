@@ -146,8 +146,9 @@ const ProblemCreationPage: React.FC = () => {
       </Button>
 
       <FormControl fullWidth margin="normal">
-        <InputLabel>正解</InputLabel>
+        <InputLabel id="correct-answer-label">正解</InputLabel>
         <Select
+        labelId="correct-answer-label"
           value={correctAnswer || ""}
           onChange={handleCorrectAnswerChange}
           label="正解"
