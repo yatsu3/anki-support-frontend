@@ -27,7 +27,7 @@ function CategoryListPage() {
   const getCategory = async() => {
     try {
       const token = await user.getIdToken();
-      const response = await getApi(`http://localhost:8080/get-category?uuid=${encodeURIComponent(uuid)}`, token);
+      const response = await getApi(`https://anki-support-backend.onrender.com/get-category?uuid=${encodeURIComponent(uuid)}`, token);
       setQuestions(response);
     } catch(e) {
       alert("カテゴリーの取得に失敗しました。");
